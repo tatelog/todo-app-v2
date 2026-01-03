@@ -23,7 +23,7 @@ export const useTodos = () => {
   const createTodo = async (todo: Partial<Todo>) => {
     try {
       const newTodo = await todoApi.create(todo);
-      setTodos(prev => [...prev, newTodo]);
+      await fetchTodos(); // 再取得して確実に反映
       return newTodo;
     } catch (err: any) {
       setError(err.message || 'Failed to create todo');
@@ -59,18 +59,7 @@ export const useTodos = () => {
     }
   };
 
-  useEffect(() => {
-    fetchTodos();
-  }, []);
+  useEffect(() => { fetchTodos(); }, []);
 
-  return {
-    todos,
-    loading,
-    error,
-    createTodo,
-    updateTodo,
-    deleteTodo,
-    toggleCompleted,
-    refetch: fetchTodos
-  };
+  return { todos, loading, error, createTodo, updateTodo, deleteTodo, toggleCompleted, refetch: fetchTodos };
 };
