@@ -10,10 +10,10 @@ const api = axios.create({
 
 export const todoApi = {
   getAll: () => api.get<Todo[]>('/todos').then(res => res.data),
-  getById: (id: string) => api.get<Todo>(`/todos/${id}`).then(res => res.data),
+  getById: (id: string) => api.get<Todo>(`/todos?id=${id}`).then(res => res.data),
   create: (todo: Partial<Todo>) => api.post<Todo>('/todos', todo).then(res => res.data),
-  update: (id: string, todo: Partial<Todo>) => api.patch<Todo>(`/todos/${id}`, todo).then(res => res.data),
-  delete: (id: string) => api.delete(`/todos/${id}`).then(res => res.data)
+  update: (id: string, todo: Partial<Todo>) => api.patch<Todo>(`/todos?id=${id}`, todo).then(res => res.data),
+  delete: (id: string) => api.delete(`/todos?id=${id}`).then(res => res.data)
 };
 
 export const categoryApi = {
