@@ -7,31 +7,33 @@ export enum Priority {
 
 // Todoインターフェース
 export interface Todo {
-  id: string;                    // UUID
-  title: string;                 // 必須、最大200文字
-  description?: string;          // オプション
-  completed: boolean;            // デフォルトfalse
-  priority: Priority;            // デフォルトMEDIUM
-  dueDate?: string;              // YYYY-MM-DD形式
-  categoryId?: string;           // カテゴリID
-  tags: string[];                // タグID配列
-  createdAt: string;             // ISO 8601形式
-  updatedAt: string;             // ISO 8601形式
+  id: string;
+  title: string;
+  description?: string;
+  completed: boolean;
+  priority: Priority;
+  startDate?: string;
+  dueDate?: string;
+  categoryId?: string;
+  tags: string[];
+  parentId?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // カテゴリインターフェース
 export interface Category {
-  id: string;                    // UUID
-  name: string;                  // 必須、ユニーク、最大50文字
-  color: string;                 // Hex color (#RRGGBB)
-  createdAt: string;             // ISO 8601形式
+  id: string;
+  name: string;
+  color: string;
+  createdAt: string;
 }
 
 // タグインターフェース
 export interface Tag {
-  id: string;                    // UUID
-  name: string;                  // 必須、ユニーク、最大30文字
-  createdAt: string;             // ISO 8601形式
+  id: string;
+  name: string;
+  createdAt: string;
 }
 
 // データベーススキーマ
@@ -46,9 +48,11 @@ export interface CreateTodoInput {
   title: string;
   description?: string;
   priority?: Priority;
+  startDate?: string;
   dueDate?: string;
   categoryId?: string;
   tags?: string[];
+  parentId?: string;
 }
 
 // Todo更新用の入力型
@@ -57,9 +61,11 @@ export interface UpdateTodoInput {
   description?: string;
   completed?: boolean;
   priority?: Priority;
+  startDate?: string;
   dueDate?: string;
   categoryId?: string;
   tags?: string[];
+  parentId?: string;
 }
 
 // フィルタオプション
@@ -68,7 +74,7 @@ export interface FilterOptions {
   priority?: Priority;
   categoryId?: string;
   tagIds?: string[];
-  search?: string;              // タイトル・説明文の部分一致検索
-  dueDateFrom?: string;         // 期限開始日
-  dueDateTo?: string;           // 期限終了日
+  search?: string;
+  dueDateFrom?: string;
+  dueDateTo?: string;
 }

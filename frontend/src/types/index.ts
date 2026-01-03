@@ -1,4 +1,3 @@
-// Backend型定義と同期
 export enum Priority {
   HIGH = 'high',
   MEDIUM = 'medium',
@@ -11,9 +10,11 @@ export interface Todo {
   description?: string;
   completed: boolean;
   priority: Priority;
+  startDate?: string;
   dueDate?: string;
   categoryId?: string;
   tags: string[];
+  parentId?: string;
   createdAt: string;
   updatedAt: string;
 }

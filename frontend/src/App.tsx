@@ -1,13 +1,16 @@
+import { useState } from 'react';
 import { useTodos } from './hooks/useTodos';
 import { TodoForm } from './components/todo/TodoForm';
 import { TodoList } from './components/todo/TodoList';
+import { GanttChart } from './components/todo/GanttChart';
 import { Priority } from './types';
 import './index.css';
 
 function App() {
   const { todos, loading, error, createTodo, deleteTodo, toggleCompleted } = useTodos();
+  const [view, setView] = useState<'list' | 'gantt'>('list');
 
-  const handleCreateTodo = async (todoData: { title: string; description?: string; priority: Priority; dueDate?: string }) => {
+  const handleCreateTodo = async (todoData: { title: string; description?: string; priority: Priority; startDate?: string; dueDate?: string; parentId?: string }) => {
     try { await createTodo(todoData); } catch (err) { console.error('Failed to create todo:', err); }
   };
 
@@ -21,22 +24,31 @@ function App() {
   const totalCount = todos.length;
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-10 min-h-screen bg-gray-50">
+    <div className="max-w-4xl mx-auto px-4 py-10 min-h-screen bg-gray-50">
       <header className="text-center mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Todo App</h1>
         <p className="text-sm text-gray-500">株式会社建ログ - 社内業務効率化ツール</p>
         {totalCount > 0 && (
-          <p className="text-sm text-blue-500 font-bold mt-2">
-            完了: {completedCount} / {totalCount} ({Math.round((completedCount / totalCount) * 100)}%)
-          </p>
+          <p className="text-sm text-blue-500 font-bold mt-2">完了: {completedCount} / {totalCount} ({Math.round((completedCount / totalCount) * 100)}%)</p>
         )}
       </header>
 
       <main>
-        <TodoForm onSubmit={handleCreateTodo} />
+        <TodoForm todos={todos} onSubmit={handleCreateTodo} />
+
+        <div className="flex gap-2 mb-4">
+          <button onClick={() => setView('list')} className={`px-4 py-2 rounded-md font-medium ${view === 'list' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}>
+            📋 リスト
+          </button>
+          <button onClick={() => setView('gantt')} className={`px-4 py-2 rounded-md font-medium ${view === 'gantt' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}>
+            📊 ガントチャート
+          </button>
+        </div>
+
         {loading && <div className="text-center py-5 text-blue-500">読み込み中...</div>}
         {error && <div className="p-3 bg-red-100 text-red-700 rounded mb-4">エラー: {error}</div>}
-        {!loading && <TodoList todos={todos} onToggle={toggleCompleted} onDelete={handleDelete} />}
+        {!loading && view === 'list' && <TodoList todos={todos} onToggle={toggleCompleted} onDelete={handleDelete} />}
+        {!loading && view === 'gantt' && <GanttChart todos={todos} />}
       </main>
     </div>
   );
