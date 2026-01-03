@@ -14,7 +14,7 @@ export const GanttChart = ({ todos, onToggle }: GanttChartProps) => {
       (a.startDate || a.dueDate || '').localeCompare(b.startDate || b.dueDate || '')
     ), [todos]);
 
-  const { minDate, maxDate, days } = useMemo(() => {
+  const { minDate, days } = useMemo(() => {
     if (!tasksWithDates.length) return { minDate: new Date(), maxDate: new Date(), days: [] };
     const allDates = tasksWithDates.flatMap(t => [t.startDate, t.dueDate].filter(Boolean) as string[]);
     const min = new Date(Math.min(...allDates.map(d => new Date(d).getTime())));
