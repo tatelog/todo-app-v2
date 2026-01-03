@@ -14,83 +14,51 @@ export const TodoForm = ({ onSubmit }: TodoFormProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) return;
-
-    onSubmit({
-      title: title.trim(),
-      description: description.trim() || undefined,
-      priority,
-      dueDate: dueDate || undefined
-    });
-
-    // フォームリセット
-    setTitle('');
-    setDescription('');
-    setPriority(Priority.MEDIUM);
-    setDueDate('');
+    onSubmit({ title: title.trim(), description: description.trim() || undefined, priority, dueDate: dueDate || undefined });
+    setTitle(''); setDescription(''); setPriority(Priority.MEDIUM); setDueDate('');
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: '20px', padding: '15px', border: '1px solid #ddd', borderRadius: '4px' }}>
-      <div style={{ marginBottom: '10px' }}>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="タスクを入力..."
-          style={{ width: '100%', padding: '8px', fontSize: '14px', border: '1px solid #ccc', borderRadius: '4px' }}
-          required
-        />
-      </div>
-
-      <div style={{ marginBottom: '10px' }}>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="説明（オプション）"
-          style={{ width: '100%', padding: '8px', fontSize: '14px', border: '1px solid #ccc', borderRadius: '4px', minHeight: '60px' }}
-          rows={2}
-        />
-      </div>
-
-      <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-        <div style={{ flex: 1 }}>
-          <label style={{ display: 'block', marginBottom: '5px', fontSize: '12px', fontWeight: 'bold' }}>優先度</label>
+    <form onSubmit={handleSubmit} className="mb-6 p-4 border border-gray-200 rounded-lg bg-white shadow-sm">
+      <input
+        type="text"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="タスクを入力..."
+        className="w-full p-3 mb-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        required
+      />
+      <textarea
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        placeholder="説明（オプション）"
+        className="w-full p-3 mb-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        rows={2}
+      />
+      <div className="flex gap-3 mb-3">
+        <div className="flex-1">
+          <label className="block mb-1 text-xs font-bold text-gray-600">優先度</label>
           <select
             value={priority}
             onChange={(e) => setPriority(e.target.value as Priority)}
-            style={{ width: '100%', padding: '8px', fontSize: '14px', border: '1px solid #ccc', borderRadius: '4px' }}
+            className="w-full p-2 border border-gray-300 rounded-md"
           >
             <option value={Priority.LOW}>低</option>
             <option value={Priority.MEDIUM}>中</option>
             <option value={Priority.HIGH}>高</option>
           </select>
         </div>
-
-        <div style={{ flex: 1 }}>
-          <label style={{ display: 'block', marginBottom: '5px', fontSize: '12px', fontWeight: 'bold' }}>期限日</label>
+        <div className="flex-1">
+          <label className="block mb-1 text-xs font-bold text-gray-600">期限日</label>
           <input
             type="date"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
-            style={{ width: '100%', padding: '8px', fontSize: '14px', border: '1px solid #ccc', borderRadius: '4px' }}
+            className="w-full p-2 border border-gray-300 rounded-md"
           />
         </div>
       </div>
-
-      <button
-        type="submit"
-        style={{
-          width: '100%',
-          padding: '10px',
-          backgroundColor: '#3B82F6',
-          color: 'white',
-          border: 'none',
-          borderRadius: '4px',
-          fontSize: '14px',
-          fontWeight: 'bold',
-          cursor: 'pointer'
-        }}
-      >
+      <button type="submit" className="w-full p-3 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-600 transition">
         追加
       </button>
     </form>
